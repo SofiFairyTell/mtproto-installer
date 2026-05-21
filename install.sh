@@ -3,7 +3,7 @@ set -e
 
 REPO_RAW="${REPO_RAW:-https://raw.githubusercontent.com/2FrogsStudio/mtproto-installer/main}"
 INSTALL_DIR="${INSTALL_DIR:-$(pwd)/mtproxy-data}"
-FAKE_DOMAIN="${FAKE_DOMAIN:-1c.ru}"
+FAKE_DOMAIN="${FAKE_DOMAIN:-max.ru}"
 TELEMT_INTERNAL_PORT="${TELEMT_INTERNAL_PORT:-1234}"
 LISTEN_PORT="${LISTEN_PORT:-443}"
 
