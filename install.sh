@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-REPO_RAW="${REPO_RAW:-https://raw.githubusercontent.com/2FrogsStudio/mtproto-installer/main}"
+REPO_RAW="${REPO_RAW:-https://github.com/SofiFairyTell/mtproto-installer/main}"
 INSTALL_DIR="${INSTALL_DIR:-$(pwd)/mtproxy-data}"
 FAKE_DOMAIN="${FAKE_DOMAIN:-max.ru}"
 TELEMT_INTERNAL_PORT="${TELEMT_INTERNAL_PORT:-1234}"
@@ -26,7 +26,7 @@ fetch() {
 
 rerun_cmd() {
 	if [[ "$0" == *bash* ]] || [[ "$0" == -* ]]; then
-		echo "curl -sSL https://raw.githubusercontent.com/2FrogsStudio/mtproto-installer/main/install.sh | bash"
+		echo "curl -sSL https://github.com/SofiFairyTell/mtproto-installer/main/install.sh | bash"
 	else
 		local dir
 		dir="$(cd "$(dirname "$0")" && pwd)"
@@ -159,13 +159,13 @@ download_and_configure() {
 	SECRET=$(generate_secret)
 
 	sed -e "s/ПОДСТАВЬТЕ_32_СИМВОЛА_HEX/${SECRET}/g" \
-	    -e "s/tls_domain = \"1c.ru\"/tls_domain = \"${FAKE_DOMAIN}\"/g" \
+	    -e "s/tls_domain = \"max.ru\"/tls_domain = \"${FAKE_DOMAIN}\"/g" \
 	    "${INSTALL_DIR}/telemt.toml.example" > "${INSTALL_DIR}/telemt.toml"
 	rm -f "${INSTALL_DIR}/telemt.toml.example"
 	info "Создан ${INSTALL_DIR}/telemt.toml (домен маскировки: ${FAKE_DOMAIN})"
 
 	local tcp_yml="${INSTALL_DIR}/traefik/dynamic/tcp.yml"
-	sed -e "s/1c\.ru/${FAKE_DOMAIN}/g" \
+	sed -e "s/max\.ru/${FAKE_DOMAIN}/g" \
 	    -e "s/telemt:1234/telemt:${TELEMT_INTERNAL_PORT}/g" \
 	    "$tcp_yml" > "${tcp_yml}.tmp" && mv "${tcp_yml}.tmp" "$tcp_yml"
 	info "Настроен Traefik: SNI ${FAKE_DOMAIN} -> telemt:${TELEMT_INTERNAL_PORT} (TLS passthrough)"
